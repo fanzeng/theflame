@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.5)
+project(theflame VERSION 0.1.0 LANGUAGES CXX)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ")
+
+set(LIB_TARGET_NAME ${PROJECT_NAME})
+
+find_package(Boost COMPONENTS program_options system filesystem REQUIRED)
+if (Boost_FOUND) 
+   message("Boost Found")
+   message("Boost_INCLUDE_DIRS=" ${Boost_INCLUDE_DIRS})
+   message("Boost_LIBRARIES=" ${Boost_LIBRARIES})
+endif(Boost_FOUND)
+
+find_package(OpenCV REQUIRED)
+if(OpenCV_FOUND)
+   message("Found OpenCV")
+   message("OpenCV_INCLUDE_DIRS=" ${OpenCV_INCLUDE_DIRS})
+   message("OpenCV_DIR=" ${OpenCV_DIR})
+endif(OpenCV_FOUND)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+#add_subdirectory("apriltageval" "bin/apriltageval")
+add_subdirectory("videoproc" "bin/videoproc")
+add_subdirectory("imageproc" "bin/imageproc")
