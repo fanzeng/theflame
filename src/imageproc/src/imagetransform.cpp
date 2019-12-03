@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     bool yes_to_overwrite = false;
     po::options_description desc("Allowed options");
     desc.add_options()
-        ("help,h", "pring help messages")
+        ("help,h", "print help messages")
         ("output-path,o", po::value<std::string>(), "output path")
         ("ext,e", po::value<std::string>(), "output extension")
         (

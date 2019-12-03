@@ -21,10 +21,10 @@ int main(int argc, char* argv[]) {
         ("ext,e", po::value<std::string>(), "output extension")
         ("resize,r", po::value<float>(), "resize ratio")
         ("verbose,v", po::value(&str_verbosity)->implicit_value(""), "verbosity")
-        ("input_filename", po::value<std::string>(&input_filename)->required(), "input_filename")
+        ("input-filename,i", po::value<std::string>(&input_filename)->required(), "input filename")
         ;
     po::positional_options_description p;
-    p.add("input_filename", 1);
+    p.add("input-filename", 1);
     po::variables_map vm;
 
     try {
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         out_ext = vm["ext"].as<std::string>();
         std::cout << "output extension=" << out_ext << std::endl;
     }
-    std::cout << "inputfilename: " << input_filename << std::endl;
+    std::cout << "input filename=" << input_filename << std::endl;
     if (fs::is_regular_file(input_filename)) {
         if (resize_ratio != 1.) {
             vtoi(input_filename, out_path, out_ext, resize_ratio);

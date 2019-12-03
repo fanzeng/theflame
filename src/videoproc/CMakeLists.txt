@@ -3,7 +3,7 @@ project(videoproc VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_FLAG "${CMAKE_CXX_FLAGS} -std=c++11 ")
 
 set(LIB_TARGET_NAME ${PROJECT_NAME})
-
+include_directories("..")
 set(${LIB_TARGET_NAME}_SOURCES src/videoproc.cpp)
 
 add_library(${LIB_TARGET_NAME} SHARED
@@ -34,6 +34,13 @@ target_link_libraries(vtoi
         )
 
 install(TARGETS vtoi DESTINATION bin/)
+
+add_executable(itov src/itov.cpp)
+target_link_libraries(itov
+        ${${LIB_TARGET_NAME}_LIBS}
+        )
+
+install(TARGETS itov DESTINATION bin/)
 
 install(TARGETS ${LIB_TARGET_NAME}
         LIBRARY DESTINATION lib/

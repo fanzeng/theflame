@@ -177,7 +177,7 @@ public:
         return 0;
     }
     
-    cv::Mat clahe(const cv::Mat& input_image, int clip_limit = 40, int tile_grid_size = 8);
+    cv::Mat clahe(const cv::Mat& input_image, int clip_limit=40, int tile_grid_size=8);
 
     int imagecanny() {
         convert_input_image_to_gray();
