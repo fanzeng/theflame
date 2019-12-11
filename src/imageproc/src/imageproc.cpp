@@ -108,8 +108,8 @@ cv::Mat imageproc::dft(cv::Mat I) {
 
 cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
     if (m_show_popup) {
-        cv::namedWindow(m_image_filename, cv::WINDOW_NORMAL);
-        cv::imshow(m_image_filename, input_image);
+        cv::namedWindow(m_input_image_filename, cv::WINDOW_NORMAL);
+        cv::imshow(m_input_image_filename, input_image);
     }
 
     COUT_DEBUG("input_image.rows = " << input_image.rows << std::endl)

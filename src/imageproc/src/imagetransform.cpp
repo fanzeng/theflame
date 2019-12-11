@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
                 COUT_INFO("inputfilename=" << input_filename << std::endl)
         if (fs::is_regular_file(input_filename)) {
             imageproc ip = imageproc(
-                input_filename,
+                std::vector<std::string>(1, input_filename),
                 output_path,
                 out_ext,
                 m_verbosity,

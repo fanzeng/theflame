@@ -12,8 +12,12 @@ namespace fs = boost::filesystem;
 
 class imageproc {
 public:
-
-    imageproc(const std::string& image_filename,
+    // vec_image_filename:
+    // a vector of filenames of images to be processed
+    // the 0th element of the vector is the "main" image to be processed
+    // the rest of the vector is used to store
+    // other files necessary for the processing.
+    imageproc(const std::vector<std::string>& vec_filename,
             const std::string& output_dirname,
             const std::string& output_ext,
             int verbosity,
@@ -23,22 +27,23 @@ public:
             std::vector<int> vec_additional_args
             ) :
     m_yes_to_overwrite(yes_to_overwrite),
-    m_image_filename(image_filename),
+    m_vec_filename(vec_filename),
     m_output_ext(output_ext),
     m_norm_factor(norm_factor),
     m_verbosity(verbosity),
     m_vec_additional_args(vec_additional_args) {
+        m_input_image_filename = m_vec_filename.at(0);
         if (output_ext.length() <= 0) {
-            m_output_dirname = fs::path(m_image_filename).parent_path().string();
+            m_output_dirname = fs::path(m_input_image_filename).parent_path().string();
         } else {
             m_output_dirname = output_dirname;
         }
         fs::path output_path = m_output_dirname;
-        COUT_INFO("image_filename=" << image_filename << std::endl)
-        cv::VideoCapture capture(image_filename);
-        m_input_image = cv::imread(image_filename, cv::IMREAD_COLOR);
+        COUT_INFO("image_filename=" << m_input_image_filename << std::endl)
+        cv::VideoCapture capture(m_input_image_filename);
+        m_input_image = cv::imread(m_input_image_filename, cv::IMREAD_COLOR);
         m_show_popup = show_popup;
-        std::string str_out_filename = fs::path(m_image_filename).stem().string() + "." + m_output_ext;
+        std::string str_out_filename = fs::path(m_input_image_filename).stem().string() + "." + m_output_ext;
         COUT_INFO("out file basename=" << str_out_filename << std::endl)
         m_output_filename = (output_path / fs::path(str_out_filename)).string();
         COUT_INFO("out file name=" << m_output_filename << std::endl)
@@ -189,7 +194,7 @@ public:
     int save_output_image();
 
 private:
-    std::string m_image_filename;
+    std::vector<std::string> m_vec_filename;
     std::string m_output_dirname;
     std::string m_output_filename;
     std::string m_output_ext;
@@ -198,6 +203,7 @@ private:
     bool m_yes_to_overwrite = false;
     int m_verbosity = 1;
     std::vector<int> m_vec_additional_args;
+    std::string m_input_image_filename;
     cv::Mat m_input_image;
     cv::Mat m_output_image;
 
