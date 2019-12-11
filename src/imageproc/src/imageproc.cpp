@@ -331,3 +331,26 @@ cv::Mat imageproc::threshold(
     }
     return output_image;
 }
+
+cv::Mat imageproc::image_absdiff(const cv::Mat& input_image_0, const cv::Mat input_image_1) {
+    cv::Mat input_image_0_gray, input_image_1_gray, output_image;
+    if (input_image_0.channels() == 1) {
+        input_image_0_gray = input_image_0;
+    } else {
+        cv::cvtColor(input_image_0, input_image_0_gray, CV_BGR2GRAY);
+    }
+    if (input_image_1.channels() == 1) {
+        input_image_1_gray = input_image_1;
+    } else {
+        cv::cvtColor(input_image_1, input_image_1_gray, CV_BGR2GRAY);
+    }    
+    cv::absdiff(input_image_0, input_image_1, output_image);
+    if (m_show_popup) {
+        cv::namedWindow("absdiff", cv::WINDOW_NORMAL);
+        cv::resizeWindow("absdiff", output_image.cols, output_image.rows); 
+        cv::imshow("absdiff", output_image);  
+        cv::waitKey(0);
+        cv::destroyAllWindows();
+    }    
+    return output_image;
+}

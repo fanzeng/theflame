@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
     }
 
     m_verbosity = str_verbosity.size();
-    COUT_INFO("verbosity level = " << m_verbosity << std::endl)
+    COUT_INFO("verbosity level=" << m_verbosity << std::endl)
     
     if (vm.count("output-path")) {
         output_path = vm["output-path"].as<std::string>();
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
         vec_additional_args = vm["additional-args"].as<std::vector<int>>();
     }
     
-    COUT_PROG("total number of input images = "
+    COUT_PROG("total number of input images="
             << vec_input_filename.size()
             << std::endl << std::endl
             )
@@ -128,10 +128,13 @@ int main(int argc, char* argv[]) {
             it++
             ) {
         std::string input_filename = *it;
-        COUT_PROG("start to process image "
-                << std::distance(vec_input_filename.begin(), it)
-                << ":" << std::endl << std::endl)
-                COUT_INFO("inputfilename=" << input_filename << std::endl)
+        COUT_PROG(
+            std::endl << std::endl
+            <<"start to process image "
+            << std::distance(vec_input_filename.begin(), it)
+            << ":" << std::endl << std::endl
+        )
+        COUT_INFO("inputfilename=" << input_filename << std::endl)
         if (fs::is_regular_file(input_filename)) {
             imageproc ip = imageproc(
                 std::vector<std::string>(1, input_filename),

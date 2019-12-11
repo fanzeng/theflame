@@ -203,6 +203,15 @@ public:
     }
 
     cv::Mat canny(const cv::Mat& input_image, int threshold1=10, int threshold2=350);
+
+    inline int image_absdiff() {
+        cv::Mat input_image_0 = cv::imread(m_vec_filename.at(0), CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat input_image_1 = cv::imread(m_vec_filename.at(1), CV_LOAD_IMAGE_GRAYSCALE);
+        m_output_image = image_absdiff(input_image_0, input_image_1);
+        return 0;
+    }
+    
+    cv::Mat image_absdiff(const cv::Mat& input_image_0, const cv::Mat input_image_1);
     int save_output_image();
 
 private:
