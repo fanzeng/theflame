@@ -28,12 +28,11 @@ public:
             ) :
     m_yes_to_overwrite(yes_to_overwrite),
     m_vec_filename(vec_filename),
-    m_output_ext(output_ext),
     m_norm_factor(norm_factor),
     m_verbosity(verbosity),
     m_vec_additional_args(vec_additional_args) {
         m_input_image_filename = m_vec_filename.at(0);
-        if (output_ext.length() <= 0) {
+        if (output_dirname.length() <= 0) {
             m_output_dirname = fs::path(m_input_image_filename).parent_path().string();
         } else {
             m_output_dirname = output_dirname;
@@ -43,7 +42,20 @@ public:
         cv::VideoCapture capture(m_input_image_filename);
         m_input_image = cv::imread(m_input_image_filename, cv::IMREAD_COLOR);
         m_show_popup = show_popup;
-        std::string str_out_filename = fs::path(m_input_image_filename).stem().string() + "." + m_output_ext;
+        if (output_ext.length() > 0) {
+            m_output_ext = "." + output_ext;
+            COUT_DEBUG(
+                "setting m_output_ext to output_ext="
+                << m_output_ext << std::endl
+            );
+        } else {
+            m_output_ext = fs::path(m_input_image_filename).extension().string();
+            COUT_INFO(
+                "no output extension specified, using input extension="
+                << m_output_ext << std::endl
+            );
+        }
+        std::string str_out_filename = fs::path(m_input_image_filename).stem().string() + m_output_ext;
         COUT_INFO("out file basename=" << str_out_filename << std::endl)
         m_output_filename = (output_path / fs::path(str_out_filename)).string();
         COUT_INFO("out file name=" << m_output_filename << std::endl)
@@ -51,12 +63,12 @@ public:
 
     }
 
-    int nop() {
+    inline int nop() {
         m_output_image = normalize_intensity(m_input_image);
         return 0;
     }
 
-    int imagethreshold() {
+    inline int imagethreshold() {
         convert_input_image_to_gray();
         if (m_vec_additional_args.size() > 2) {
            m_output_image = threshold(
@@ -89,7 +101,7 @@ public:
         int type = 0
     );
     
-    int imageresize() {
+    inline int imageresize() {
         if (m_vec_additional_args.size() > 1) {
             m_output_image = imageresize(
                 m_input_image,
@@ -105,7 +117,7 @@ public:
     
     cv::Mat imageresize(const cv::Mat input_image, int width, int height);
 
-    int imagegaussianblur() {
+    inline int imagegaussianblur() {
         convert_input_image_to_gray();
         if (m_vec_additional_args.size() > 0) {
             m_output_image = imagegaussianblur(
@@ -120,7 +132,7 @@ public:
 
     cv::Mat imagegaussianblur(const cv::Mat input_image, int kernel_size=3);
     
-    int imagedft() {
+    inline int imagedft() {
         convert_input_image_to_gray();
         m_output_image = imagedft(m_input_image);
         return 0;
@@ -128,13 +140,13 @@ public:
 
     cv::Mat imagedft(const cv::Mat& input_image);
 
-    int imagemean() {
+    inline int imagemean() {
         convert_input_image_to_gray();
         m_output_image = imagemean(m_input_image);
         return 0;
     }
 
-    cv::Mat imagemean(const cv::Mat& input_image) {
+    inline cv::Mat imagemean(const cv::Mat& input_image) {
         if (m_vec_additional_args.size() > 0) {
             return imagemeanstd(
                 input_image,
@@ -146,13 +158,13 @@ public:
         }
     }
 
-    int imagestdev() {
+    inline int imagestdev() {
         convert_input_image_to_gray();
         m_output_image = imagestdev(m_input_image);
         return 0;
     }
 
-    cv::Mat imagestdev(const cv::Mat& input_image) {
+    inline cv::Mat imagestdev(const cv::Mat& input_image) {
         if (m_vec_additional_args.size() > 0) {
             return imagemeanstd(
                 input_image,
@@ -163,7 +175,7 @@ public:
             return imagemeanstd(input_image, "stdev");
         }    }
 
-    int imageclahe() {
+    inline int imageclahe() {
         convert_input_image_to_gray();
         if (m_vec_additional_args.size() > 1) {
            m_output_image = clahe(
@@ -184,7 +196,7 @@ public:
     
     cv::Mat clahe(const cv::Mat& input_image, int clip_limit=40, int tile_grid_size=8);
 
-    int imagecanny() {
+    inline int imagecanny() {
         convert_input_image_to_gray();
         m_output_image = canny(m_input_image);
         return 0;

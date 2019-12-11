@@ -149,30 +149,27 @@ int main(int argc, char* argv[]) {
             COUT_INFO("transform type=" << transform_type << std::endl);
             if (transform_type == "clahe") {
                 ret = ip.imageclahe();
-            }
-            if (transform_type == "canny") {
+            } else if (transform_type == "canny") {
                 ret = ip.imagecanny();
-            }
-            if (transform_type == "dft") {
+            } else if (transform_type == "dft") {
                 ret = ip.imagedft();
-            }
-            if (transform_type == "gaussianblur") {
+            } else if (transform_type == "gaussianblur") {
                 ret = ip.imagegaussianblur();
-            }
-            if (transform_type == "mean") {
+            } else if (transform_type == "mean") {
                 ret = ip.imagemean();
-            }
-            if (transform_type == "resize") {
+            } else if (transform_type == "resize") {
                 ret = ip.imageresize();
-            }
-            if (transform_type == "stdev") {
+            } else if (transform_type == "stdev") {
                 ret = ip.imagestdev();
-            }
-            if (transform_type == "threshold") {
+            } else if (transform_type == "threshold") {
                 ret = ip.imagethreshold();
-            }
-            if (transform_type == "nop") {
+            } else if (transform_type == "nop") {
                 ret = ip.nop();
+            } else {
+                COUT_WARN(
+                    "unrecognized transform_type="
+                    << transform_type << std::endl
+                );
             }
             
             if (ret == 0) {

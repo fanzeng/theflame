@@ -12,7 +12,7 @@ cv::Mat imageproc::normalize_intensity(const cv::Mat before) {
         )
         cv::normalize(before, after, 0, 255, cv::NORM_MINMAX);
     } else {
-        COUT_DEBUG("norm-factor is " << m_norm_factor
+        COUT_DEBUG("norm-factor=" << m_norm_factor
             << ", will scale the output image intensity by it."
             << std::endl
         )        
@@ -112,8 +112,8 @@ cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
         cv::imshow(m_input_image_filename, input_image);
     }
 
-    COUT_DEBUG("input_image.rows = " << input_image.rows << std::endl)
-    COUT_DEBUG("input_image.cols = " << input_image.cols << std::endl)
+    COUT_DEBUG("input_image.rows=" << input_image.rows << std::endl)
+    COUT_DEBUG("input_image.cols=" << input_image.cols << std::endl)
 
     cv::Mat image_dft = dft(input_image);
 
@@ -124,7 +124,7 @@ cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
         )
         cv::normalize(image_dft, image_dft, 0, 255, cv::NORM_MINMAX);
     } else {
-        COUT_DEBUG("norm-factor is " << m_norm_factor
+        COUT_DEBUG("norm-factor=" << m_norm_factor
             << ", will scale the output image intensity by it."
             << std::endl
         )        
@@ -153,15 +153,15 @@ cv::Mat imageproc::imagemeanstd(
     std::string output_option,
     int patch_size
 ) {
-    COUT_DEBUG("input_image.rows = " << input_image.rows << std::endl)
-    COUT_DEBUG("input_image.cols = " << input_image.cols << std::endl)
-    COUT_DEBUG("patch_size = " << patch_size << std::endl)
+    COUT_DEBUG("input_image.rows=" << input_image.rows << std::endl)
+    COUT_DEBUG("input_image.cols=" << input_image.cols << std::endl)
+    COUT_DEBUG("patch_size=" << patch_size << std::endl)
     int patch_size_half = patch_size / 2;
     int step_size = 1;
 
     int width_result = ceil(input_image.cols/step_size);
     int height_result = ceil(input_image.rows/step_size);
-    COUT_DEBUG("output image size (wxh) = "
+    COUT_DEBUG("output image size (wxh)="
             << width_result
             << "x" 
             << height_result 
@@ -227,8 +227,8 @@ cv::Mat imageproc::clahe(
     int tile_grid_size
 ) {
     assert(input_image.cols > 0 && input_image.rows > 0);
-    COUT_DEBUG("clip_limit = " << clip_limit << std::endl)
-    COUT_DEBUG("tile_grid_size = " << tile_grid_size << std::endl)
+    COUT_DEBUG("clip_limit=" << clip_limit << std::endl)
+    COUT_DEBUG("tile_grid_size=" << tile_grid_size << std::endl)
     cv::Ptr<cv::CLAHE> clahe = cv::createCLAHE(
             clip_limit,
             cv::Size(tile_grid_size, tile_grid_size)
@@ -250,8 +250,8 @@ cv::Mat imageproc::canny(
     int threshold2
 ) {
     cv::Mat output_image;
-    COUT_DEBUG("threshold1 = " << threshold1 << std::endl)
-    COUT_DEBUG("threshold2 = " << threshold2 << std::endl)
+    COUT_DEBUG("threshold1=" << threshold1 << std::endl)
+    COUT_DEBUG("threshold2=" << threshold2 << std::endl)
     cv::Canny(input_image, output_image, threshold1, threshold2);
     if (m_show_popup) {
         cv::namedWindow("canny", cv::WINDOW_NORMAL);
@@ -266,7 +266,7 @@ cv::Mat imageproc::canny(
 cv::Mat imageproc::imagegaussianblur(const cv::Mat input_image, int kernel_size) {
     cv::Mat output_image;
 
-    COUT_DEBUG("kernel_size = " << kernel_size << std::endl)
+    COUT_DEBUG("kernel_size=" << kernel_size << std::endl)
     if (kernel_size <= 0 || kernel_size %2 != 1) {
         COUT_ERROR("invalid kernel size." << std::endl)
     }
@@ -290,8 +290,8 @@ cv::Mat imageproc::imagegaussianblur(const cv::Mat input_image, int kernel_size)
 cv::Mat imageproc::imageresize(const cv::Mat input_image, int width, int height) {
     cv::Mat output_image;
     
-    COUT_DEBUG("width = " << width << std::endl)
-    COUT_DEBUG("height = " << height << std::endl)
+    COUT_DEBUG("width=" << width << std::endl)
+    COUT_DEBUG("height=" << height << std::endl)
             
     cv::resize(
         input_image,
@@ -317,9 +317,9 @@ cv::Mat imageproc::threshold(
 ) {
     cv::Mat output_image;
 
-    COUT_DEBUG("thresh = " << thresh << std::endl)
-    COUT_DEBUG("maxval = " << maxval << std::endl)
-    COUT_DEBUG("type = " << type << std::endl)
+    COUT_DEBUG("thresh=" << thresh << std::endl)
+    COUT_DEBUG("maxval=" << maxval << std::endl)
+    COUT_DEBUG("type=" << type << std::endl)
 
     cv::threshold(input_image, output_image, thresh, maxval, type);
     if (m_show_popup) {

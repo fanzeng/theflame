@@ -33,6 +33,11 @@ target_link_libraries(imagetransform
         ${${LIB_TART_NAME}_LIBS}
         )
 
+#add_executable(imageabsdiff src/imageabsdiff.cpp)
+#target_link_libraries(imageabsdiff
+#        ${${LIB_TART_NAME}_LIBS}
+#        )
+
 install(TARGETS imagetransform DESTINATION bin/)
 
 install(TARGETS ${LIB_TARGET_NAME}
