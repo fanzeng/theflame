@@ -10,19 +10,32 @@ int vtoi(const std::string& video_filename,
         const std::string& output_dirname,
         const std::string& output_ext,
         int m_verbosity,
-        float resize_ratio
+        float resize_ratio,
+        int out_height,
+        int out_width
     ) {
 
     fs::path output_path = output_dirname;
     COUT_INFO("video_filename=" << video_filename << std::endl)
     COUT_INFO("resize_ratio=" << resize_ratio << std::endl)
+    COUT_INFO("out_height=" << out_height << std::endl)
+    COUT_INFO("out_width=" << out_width << std::endl)
+
     cv::VideoCapture capture(video_filename);
     cv::Mat frame;  
     long frame_count = 0;
     while(1)
     {
         capture >> frame;
-        cv::resize(frame, frame, cv::Size(), resize_ratio, resize_ratio, cv::INTER_LANCZOS4);
+        
+        // if customized resize ratio provided,
+        if (resize_ratio != 1. && resize_ratio > 0) {
+            cv::resize(frame, frame, cv::Size(0,0), resize_ratio, resize_ratio, cv::INTER_LANCZOS4);
+        } else if (out_height > 0 && out_width > 0) {
+            // customized out width and out height provided
+            cv::resize(frame, frame, cv::Size(out_width ,out_height), 0, 0, cv::INTER_LANCZOS4);
+        }
+        
         if (frame.empty())
             break;
         cv::namedWindow(video_filename, cv::WINDOW_AUTOSIZE);
@@ -51,11 +64,15 @@ int itov(const std::vector<std::string>& vec_input_filename,
         int frames_per_second,
         int m_verbosity,
         float resize_ratio,
+        int out_height,
+        int out_width,
         bool show_popup
     ) {
 
     fs::path output_path = output_dirname;
     COUT_INFO("resize_ratio=" << resize_ratio << std::endl)
+    COUT_INFO("out_height=" << out_height << std::endl)
+    COUT_INFO("out_width=" << out_width << std::endl)
     int first_regular_file_index = 0;
     while (
             first_regular_file_index < vec_input_filename.size()
@@ -73,8 +90,24 @@ int itov(const std::vector<std::string>& vec_input_filename,
     cv::Mat first_frame = cv::imread(
             vec_input_filename.at(first_regular_file_index)
         );
-    size_t video_width = (size_t)(first_frame.cols*resize_ratio);
-    size_t video_height = (size_t)(first_frame.rows*resize_ratio);
+    
+        
+    size_t video_height = (size_t)first_frame.rows;
+    size_t video_width = (size_t)first_frame.cols;
+
+    // if customized resize ratio provided,
+    if (resize_ratio != 1. && resize_ratio > 0) {
+        video_height *= resize_ratio;
+        video_width *= resize_ratio;
+    } else if (out_height > 0 && out_width > 0) {
+        // customized out width and out height provided
+        video_height = out_height;
+        video_width = out_width;
+    }
+    
+    COUT_INFO("video_height=" << video_height << std::endl)
+    COUT_INFO("video_width=" << video_width << std::endl)
+            
     long input_frame_count = 0;
     long output_frame_count = 0;
     std::string output_file_basename = "itov_generated_video." + output_ext;

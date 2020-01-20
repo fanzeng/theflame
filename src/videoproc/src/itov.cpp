@@ -15,6 +15,8 @@ int main(int argc, char* argv[]) {
     std::string out_path;
     std::string out_ext = "mp4"; // default output format
     float resize_ratio = 1.;
+    int out_height;
+    int out_width;
     int frames_per_image = 1;
     int frames_per_second = 24;
     bool show_popup = false;
@@ -27,6 +29,8 @@ int main(int argc, char* argv[]) {
         ("frames-per-image,d", po::value<int>(), "number of frames per image")
         ("frames-per-second,f", po::value<int>(), "number of frames per second")
         ("resize,r", po::value<float>(), "resize ratio")
+        ("out_height,g", po::value<int>(), "out height")
+        ("out_width,w", po::value<int>(), "out width")
         ("show-popup,s", po::value(&show_popup)->implicit_value(false),
         "show processed images in pop-up")
         ("verbose,v", po::value(&str_verbosity)->implicit_value(""), "verbosity")
@@ -53,12 +57,33 @@ int main(int argc, char* argv[]) {
     if (vm.count("resize")) {
         resize_ratio = vm["resize"].as<float>();
     }
+    
 
     if (vm.count("verbosity")) {
         str_verbosity += "v";
     }
     m_verbosity = str_verbosity.size();
-
+    
+    if (vm.count("out_height")) {
+        out_height = vm["out_height"].as<int>();
+        if ( ! vm.count("out_width")) {
+            COUT_WARN(
+                "out_height is set but out_width is not."
+                " out_height will be ignored." << std::endl
+            )
+        }
+    }
+    
+    if (vm.count("out_width")) {
+        out_width = vm["out_width"].as<int>();
+        if ( ! vm.count("out_height")) {
+            COUT_WARN(
+                "out_width is set but out_height is not."
+                " out_width will be ignored." << std::endl
+            )
+        }
+    }
+    
     if (vm.count("path")) {
         out_path = vm["path"].as<std::string>();
         COUT_INFO("output path=" << out_path << std::endl)
@@ -90,6 +115,8 @@ int main(int argc, char* argv[]) {
         frames_per_second,
         m_verbosity,
         resize_ratio,
+        out_height,
+        out_width,
         show_popup
     );
     return 0;
