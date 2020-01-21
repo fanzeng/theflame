@@ -132,11 +132,9 @@ cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
     }
 
     if (m_show_popup) {
-        cv::namedWindow("dft", cv::WINDOW_NORMAL);
-        cv::resizeWindow("dft", input_image.cols, input_image.rows); 
-        cv::imshow("dft", image_dft);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", image_dft.cols, image_dft.rows); 
+        cv::imshow("image_proc", image_dft);  
+        cv::waitKey(1);
     }
     
     image_dft += cv::Scalar::all(1); // switch to logarithmic scale
@@ -206,16 +204,11 @@ cv::Mat imageproc::imagemeanstd(
     }
 
     if (m_show_popup) {
-        cv::namedWindow(output_window_name, cv::WINDOW_NORMAL);
-        cv::resizeWindow(
-            output_window_name,
-            input_image.cols,
-            input_image.rows
-        ); 
-        cv::imshow(output_window_name, output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
     }
+    
     output_image = normalize_intensity(output_image);
     return output_image;
 }
@@ -236,10 +229,9 @@ cv::Mat imageproc::clahe(
     cv::Mat clahe_image;
     clahe->apply(input_image, clahe_image);
     if (m_show_popup) {
-        cv::namedWindow("clahe", cv::WINDOW_NORMAL);
-        cv::imshow("clahe", clahe_image);
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", clahe_image.cols, clahe_image.rows); 
+        cv::imshow("image_proc", clahe_image);  
+        cv::waitKey(1);
     }
     return clahe_image;
 }
@@ -254,11 +246,9 @@ cv::Mat imageproc::canny(
     COUT_DEBUG("threshold2=" << threshold2 << std::endl)
     cv::Canny(input_image, output_image, threshold1, threshold2);
     if (m_show_popup) {
-        cv::namedWindow("canny", cv::WINDOW_NORMAL);
-        cv::resizeWindow("canny", input_image.cols, input_image.rows); 
-        cv::imshow("canny", output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
     }
     return output_image;
 }
@@ -278,11 +268,9 @@ cv::Mat imageproc::imagegaussianblur(const cv::Mat input_image, int kernel_size)
     );
     
     if (m_show_popup) {
-        cv::namedWindow("gaussianblur", cv::WINDOW_NORMAL);
-        cv::resizeWindow("gaussianblur", input_image.cols, input_image.rows); 
-        cv::imshow("gaussianblur", output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
     }
     return output_image;
 }
@@ -300,12 +288,11 @@ cv::Mat imageproc::imageresize(const cv::Mat input_image, int width, int height)
     );
     
     if (m_show_popup) {
-        cv::namedWindow("resized", cv::WINDOW_NORMAL);
-        cv::resizeWindow("resized", input_image.cols, input_image.rows); 
-        cv::imshow("resized", output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
     }
+    
     return output_image;
 }
 
@@ -323,11 +310,9 @@ cv::Mat imageproc::threshold(
 
     cv::threshold(input_image, output_image, thresh, maxval, type);
     if (m_show_popup) {
-        cv::namedWindow("threshold", cv::WINDOW_NORMAL);
-        cv::resizeWindow("threshold", input_image.cols, input_image.rows); 
-        cv::imshow("threshold", output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
     }
     return output_image;
 }
@@ -346,11 +331,9 @@ cv::Mat imageproc::image_absdiff(const cv::Mat& input_image_0, const cv::Mat inp
     }    
     cv::absdiff(input_image_0, input_image_1, output_image);
     if (m_show_popup) {
-        cv::namedWindow("absdiff", cv::WINDOW_NORMAL);
-        cv::resizeWindow("absdiff", output_image.cols, output_image.rows); 
-        cv::imshow("absdiff", output_image);  
-        cv::waitKey(0);
-        cv::destroyAllWindows();
-    }    
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
+    } 
     return output_image;
 }

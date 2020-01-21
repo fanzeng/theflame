@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
             "transform-type,t", po::value(&transform_type)->implicit_value(""),
             "specify which transform to perform:"
             "clahe, canny, dft, gaussianblur, mean, resize, stdev, threshold."
-            "if not specified, only norm-factor will be applied."
+            " if not specified, only norm-factor will be applied."
         )
         (
             "additional-args,a",
@@ -104,6 +104,7 @@ int main(int argc, char* argv[]) {
 
     if (vm.count("show-popup")) {
         show_popup = true;
+        cv::namedWindow("image_proc", cv::WINDOW_NORMAL);
     }
     
     if (vm.count("yes-to-overwrite")) {
@@ -192,6 +193,8 @@ int main(int argc, char* argv[]) {
         }
     }
     COUT_PROG(success_count << " images processed. " << std::endl << std::endl)
-    return 0;
+            cv::destroyAllWindows();
+
+            return 0;
 }
 
