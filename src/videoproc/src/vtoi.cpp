@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     int m_verbosity;
     std::string input_filename;
     std::string out_path;
-    std::string out_ext;
+    std::string out_ext = "png";
     float resize_ratio = 1.;
     int out_height;
     int out_width;
@@ -73,13 +73,14 @@ int main(int argc, char* argv[]) {
     
     if (vm.count("path")) {
         out_path = vm["path"].as<std::string>();
-        std::cout << "output path=" << out_path << std::endl;
     }
+    COUT_INFO("output path=" << out_path << std::endl)
 
     if (vm.count("ext")) {
         out_ext = vm["ext"].as<std::string>();
-        std::cout << "output extension=" << out_ext << std::endl;
     }
+    COUT_INFO("output extension=" << out_ext << std::endl)
+
     std::cout << "input filename=" << input_filename << std::endl;
     if (fs::is_regular_file(input_filename)) {
         vtoi(
