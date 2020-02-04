@@ -52,7 +52,7 @@ int imageproc::save_output_image() {
 // Result could be an image that is difficult to view
 // It's up to the calling function to decide whether to normalize.
 
-cv::Mat imageproc::dft(cv::Mat I) {
+cv::Mat imageproc::cvdft(cv::Mat I) {
     cv::Mat padded;
     int m = cv::getOptimalDFTSize( I.rows );
     int n = cv::getOptimalDFTSize( I.cols );
@@ -106,7 +106,7 @@ cv::Mat imageproc::dft(cv::Mat I) {
 }
 
 
-cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
+cv::Mat imageproc::image_dft(const cv::Mat& input_image) {
     if (m_show_popup) {
         cv::namedWindow(m_input_image_filename, cv::WINDOW_NORMAL);
         cv::imshow(m_input_image_filename, input_image);
@@ -115,7 +115,7 @@ cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
     COUT_DEBUG("input_image.rows=" << input_image.rows << std::endl)
     COUT_DEBUG("input_image.cols=" << input_image.cols << std::endl)
 
-    cv::Mat image_dft = dft(input_image);
+    cv::Mat image_dft = cvdft(input_image);
 
     if (m_norm_factor < 0.) {
         COUT_DEBUG("no norm-factor specified. "
@@ -146,7 +146,7 @@ cv::Mat imageproc::imagedft(const cv::Mat& input_image) {
 }
 
 
-cv::Mat imageproc::imagemeanstd(
+cv::Mat imageproc::image_meanstd(
     const cv::Mat& input_image,
     std::string output_option,
     int patch_size
@@ -214,7 +214,7 @@ cv::Mat imageproc::imagemeanstd(
 }
 
 
-cv::Mat imageproc::clahe(
+cv::Mat imageproc::image_clahe(
     const cv::Mat& input_image,
     int clip_limit,
     int tile_grid_size
@@ -236,7 +236,7 @@ cv::Mat imageproc::clahe(
     return clahe_image;
 }
 
-cv::Mat imageproc::canny(
+cv::Mat imageproc::image_canny(
     const cv::Mat& input_image,
     int threshold1,
     int threshold2
@@ -253,7 +253,7 @@ cv::Mat imageproc::canny(
     return output_image;
 }
 
-cv::Mat imageproc::imagegaussianblur(const cv::Mat input_image, int kernel_size) {
+cv::Mat imageproc::image_gaussianblur(const cv::Mat input_image, int kernel_size) {
     cv::Mat output_image;
 
     COUT_DEBUG("kernel_size=" << kernel_size << std::endl)
@@ -275,7 +275,7 @@ cv::Mat imageproc::imagegaussianblur(const cv::Mat input_image, int kernel_size)
     return output_image;
 }
 
-cv::Mat imageproc::imageresize(const cv::Mat input_image, int width, int height) {
+cv::Mat imageproc::image_resize(const cv::Mat input_image, int width, int height) {
     cv::Mat output_image;
     
     COUT_DEBUG("width=" << width << std::endl)
@@ -296,7 +296,7 @@ cv::Mat imageproc::imageresize(const cv::Mat input_image, int width, int height)
     return output_image;
 }
 
-cv::Mat imageproc::threshold(
+cv::Mat imageproc::image_threshold(
     const cv::Mat input_image,
     int thresh,
     int maxval,
@@ -309,6 +309,52 @@ cv::Mat imageproc::threshold(
     COUT_DEBUG("type=" << type << std::endl)
 
     cv::threshold(input_image, output_image, thresh, maxval, type);
+    if (m_show_popup) {
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
+    }
+    return output_image;
+}
+
+cv::Mat imageproc::image_erode(
+    const cv::Mat input_image,
+    int erosion_size,
+    int erosion_type
+) {
+    cv::Mat output_image;
+
+    COUT_DEBUG("erosion_size=" << erosion_size << std::endl)
+    COUT_DEBUG("erosion_type=" << erosion_type << std::endl)
+
+    cv::Mat kernel = cv::getStructuringElement(
+                erosion_type,
+                cv::Size(2*erosion_size + 1, 2*erosion_size + 1)
+            );
+    cv::erode(input_image, output_image, kernel);
+    if (m_show_popup) {
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
+    }
+    return output_image;
+}
+
+cv::Mat imageproc::image_dilate(
+    const cv::Mat input_image,
+    int dilation_size,
+    int dilation_type
+) {
+    cv::Mat output_image;
+
+    COUT_DEBUG("dilation_size=" << dilation_size << std::endl)
+    COUT_DEBUG("dilation_type=" << dilation_type << std::endl)
+
+    cv::Mat kernel = cv::getStructuringElement(
+                dilation_type,
+                cv::Size(2*dilation_size + 1, 2*dilation_size + 1)
+            );
+    cv::dilate(input_image, output_image, kernel);
     if (m_show_popup) {
         cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
         cv::imshow("image_proc", output_image);  

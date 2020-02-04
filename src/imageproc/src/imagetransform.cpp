@@ -40,16 +40,18 @@ int main(int argc, char* argv[]) {
         (
             "transform-type,t", po::value(&transform_type)->implicit_value(""),
             "specify which transform to perform:"
-            "clahe, canny, dft, gaussianblur, mean, resize, stdev, threshold."
+            "canny,clahe,dft,erode,gaussianblur,mean,resize,stdev,threshold."
             " if not specified, only norm-factor will be applied."
         )
         (
             "additional-args,a",
             po::value<std::vector<int>>(&vec_additional_args)->multitoken(),
             "specify additional arguments used by the transform:\n"
-            "clahe=>clip_limit,tile_grid_size\n"
             "canny=>threshold1,threshold2\n"
+            "clahe=>clip_limit,tile_grid_size\n"
             "dft=>None\n"
+            "dilate=>dilation_size,dilation_type\n"
+            "erode=>erosion_size,erosion_type\n"
             "gaussianblur=>kernel_size\n"
             "mean=>patch_size\n"
             "resize=>width,height\n"
@@ -151,24 +153,28 @@ int main(int argc, char* argv[]) {
             int ret;
             if (transform_type.size() <= 0) transform_type = "nop";
             COUT_INFO("transform type=" << transform_type << std::endl);
-            if (transform_type == "clahe") {
-                ret = ip.imageclahe();
-            } else if (transform_type == "canny") {
-                ret = ip.imagecanny();
-            } else if (transform_type == "dft") {
-                ret = ip.imagedft();
-            } else if (transform_type == "gaussianblur") {
-                ret = ip.imagegaussianblur();
-            } else if (transform_type == "mean") {
-                ret = ip.imagemean();
-            } else if (transform_type == "resize") {
-                ret = ip.imageresize();
-            } else if (transform_type == "stdev") {
-                ret = ip.imagestdev();
-            } else if (transform_type == "threshold") {
-                ret = ip.imagethreshold();
-            } else if (transform_type == "nop") {
+            if (transform_type == "nop") {
                 ret = ip.nop();
+            } else if (transform_type == "clahe") {
+                ret = ip.image_clahe();
+            } else if (transform_type == "canny") {
+                ret = ip.image_canny();
+            } else if (transform_type == "dft") {
+                ret = ip.image_dft();
+            } else if (transform_type == "dilate") {
+                ret = ip.image_dilate();
+            } else if (transform_type == "erode") {
+                ret = ip.image_erode();
+            } else if (transform_type == "gaussianblur") {
+                ret = ip.image_gaussianblur();
+            } else if (transform_type == "mean") {
+                ret = ip.image_mean();
+            } else if (transform_type == "resize") {
+                ret = ip.image_resize();
+            } else if (transform_type == "stdev") {
+                ret = ip.image_stdev();
+            } else if (transform_type == "threshold") {
+                ret = ip.image_threshold();
             } else {
                 COUT_WARN(
                     "unrecognized transform_type="
