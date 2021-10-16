@@ -3,6 +3,8 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <opencv2/opencv.hpp>
+#include <iomanip>
+#include <sstream>
 
 namespace fs = boost::filesystem;
 
@@ -23,7 +25,7 @@ int vtoi(const std::string& video_filename,
 
     cv::VideoCapture capture(video_filename);
     cv::Mat frame;  
-    long frame_count = 0;
+    int frame_count = 0;
     while(1)
     {
         capture >> frame;
@@ -45,7 +47,15 @@ int vtoi(const std::string& video_filename,
             COUT_INFO("q is pressed on the keyboard. Exit." << std::endl)
             break;
         }
-        std::string output_file_basename = std::to_string(frame_count) + "." + output_ext;
+        std::string video_file_basename = fs::path(video_filename).stem().string();
+        std::stringstream ss;
+        ss << std::setw(5) << std::setfill('0') << std::fixed << frame_count;
+        std::string frame_count_string = ss.str();
+        std::string output_file_basename = 
+                video_file_basename
+                + "_" 
+                + frame_count_string
+                + "." + output_ext;
         fs::path output_filename = output_dirname / fs::path(output_file_basename);
         
         cv::imwrite(output_filename.string(), frame);
