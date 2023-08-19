@@ -65,8 +65,8 @@ public:
     }
     
     inline int image_absdiff() {
-        cv::Mat input_image_0 = cv::imread(m_vec_filename.at(0), CV_LOAD_IMAGE_GRAYSCALE);
-        cv::Mat input_image_1 = cv::imread(m_vec_filename.at(1), CV_LOAD_IMAGE_GRAYSCALE);
+        cv::Mat input_image_0 = cv::imread(m_vec_filename.at(0), cv::IMREAD_GRAYSCALE);
+        cv::Mat input_image_1 = cv::imread(m_vec_filename.at(1), cv::IMREAD_GRAYSCALE);
         m_output_image = image_absdiff(input_image_0, input_image_1);
         return 0;
     }

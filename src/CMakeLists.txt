@@ -10,6 +10,7 @@ if (Boost_FOUND)
    message("Boost_INCLUDE_DIRS=" ${Boost_INCLUDE_DIRS})
    message("Boost_LIBRARIES=" ${Boost_LIBRARIES})
 endif(Boost_FOUND)
+include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(OpenCV REQUIRED)
 if(OpenCV_FOUND)

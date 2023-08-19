@@ -126,7 +126,7 @@ int itov(const std::vector<std::string>& vec_input_filename,
     COUT_INFO("output filename=" << output_filename_str << std::endl);
     cv::VideoWriter video(
         output_filename_str,
-        CV_FOURCC('m','p','4','v'),
+        cv::VideoWriter::fourcc('m','p','4','v'),
         frames_per_second,
         cv::Size(video_width, video_height)
     );

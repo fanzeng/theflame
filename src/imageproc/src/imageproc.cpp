@@ -22,7 +22,7 @@ cv::Mat imageproc::normalize_intensity(const cv::Mat before) {
 }
 
 int imageproc::convert_input_image_to_gray() {
-    cv::cvtColor(m_input_image, m_input_image, CV_BGR2GRAY);
+    cv::cvtColor(m_input_image, m_input_image, cv::COLOR_BGR2GRAY);
 }
 
 int imageproc::save_output_image() {
@@ -368,12 +368,12 @@ cv::Mat imageproc::image_absdiff(const cv::Mat& input_image_0, const cv::Mat inp
     if (input_image_0.channels() == 1) {
         input_image_0_gray = input_image_0;
     } else {
-        cv::cvtColor(input_image_0, input_image_0_gray, CV_BGR2GRAY);
+        cv::cvtColor(input_image_0, input_image_0_gray, cv::COLOR_BGR2GRAY);
     }
     if (input_image_1.channels() == 1) {
         input_image_1_gray = input_image_1;
     } else {
-        cv::cvtColor(input_image_1, input_image_1_gray, CV_BGR2GRAY);
+        cv::cvtColor(input_image_1, input_image_1_gray, cv::COLOR_BGR2GRAY);
     }    
     cv::absdiff(input_image_0, input_image_1, output_image);
     if (m_show_popup) {
