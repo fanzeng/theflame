@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
         (
             "transform-type,t", po::value(&transform_type)->implicit_value(""),
             "specify which transform to perform:"
-            "canny,clahe,dft,erode,gaussianblur,mean,resize,stdev,threshold."
+            "canny,clahe,dft,erode,gaussianblur,mean,resize,stdev,threshold,crop."
             " if not specified, only norm-factor will be applied."
         )
         (
@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
             "resize=>width,height\n"
             "stdev=>patch_size\n"
             "threshold=>thresh,maxval,type\n"
+            "crop=>x0,y0,x1,y1\n"
         )            
         (
             "input_filenames,i",
