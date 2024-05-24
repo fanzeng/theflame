@@ -365,12 +365,12 @@ cv::Mat imageproc::image_dilate(
 
 cv::Mat imageproc::image_crop(
     const cv::Mat input_image,
-    double x0, double y0, double x1, double y1
+    int x0, int y0, int x1, int y1
 ) {
     cv::Mat output_image;
 
-    COUT_DEBUG("(x0, y0, x1, y1 = (" << x0 << ", " << y0 << ", " << x1 << ", " << y1 << ")" << std::endl)
-    output_image = input_image;
+    COUT_DEBUG("(x0, y0, x1, y1) = (" << x0 << ", " << y0 << ", " << x1 << ", " << y1 << ")" << std::endl)
+    output_image = input_image(cv::Range(x0, x1), cv::Range(y0, y1));
     if (m_show_popup) {
         cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
         cv::imshow("image_proc", output_image);  

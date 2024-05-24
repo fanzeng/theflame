@@ -290,7 +290,7 @@ private:
             );
     cv::Mat image_crop(
             const cv::Mat input_image,
-            double x0, double y0, double x1, double y1
+            int x0, int y0, int x1, int y1
     );
 
 };
