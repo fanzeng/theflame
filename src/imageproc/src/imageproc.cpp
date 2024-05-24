@@ -363,6 +363,22 @@ cv::Mat imageproc::image_dilate(
     return output_image;
 }
 
+cv::Mat imageproc::image_crop(
+    const cv::Mat input_image,
+    double x0, double y0, double x1, double y1
+) {
+    cv::Mat output_image;
+
+    COUT_DEBUG("(x0, y0, x1, y1 = (" << x0 << ", " << y0 << ", " << x1 << ", " << y1 << ")" << std::endl)
+    output_image = input_image;
+    if (m_show_popup) {
+        cv::resizeWindow("image_proc", output_image.cols, output_image.rows); 
+        cv::imshow("image_proc", output_image);  
+        cv::waitKey(1);
+    }
+    return output_image;
+}
+
 cv::Mat imageproc::image_absdiff(const cv::Mat& input_image_0, const cv::Mat input_image_1) {
     cv::Mat input_image_0_gray, input_image_1_gray, output_image;
     if (input_image_0.channels() == 1) {

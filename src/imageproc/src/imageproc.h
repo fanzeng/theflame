@@ -210,7 +210,19 @@ public:
         }
         return 0;
     }
-
+    inline int image_crop() {
+        if (m_vec_additional_args.size() >= 4) {
+            m_output_image = image_crop(
+                    m_input_image,
+                    m_vec_additional_args.at(0),
+                    m_vec_additional_args.at(1),
+                    m_vec_additional_args.at(2),
+                    m_vec_additional_args.at(3)
+                    );
+        }
+        return 0;
+    }
+ 
     int save_output_image();
 
 private:
@@ -276,7 +288,10 @@ private:
             int maxval = 255,
             int type = 0
             );
-
+    cv::Mat image_crop(
+            const cv::Mat input_image,
+            double x0, double y0, double x1, double y1
+    );
 
 };
 

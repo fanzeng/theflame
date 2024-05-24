@@ -175,6 +175,8 @@ int main(int argc, char* argv[]) {
                 ret = ip.image_stdev();
             } else if (transform_type == "threshold") {
                 ret = ip.image_threshold();
+            } else if (transform_type == "crop") {
+                ret = ip.image_crop();
             } else {
                 COUT_WARN(
                     "unrecognized transform_type="
